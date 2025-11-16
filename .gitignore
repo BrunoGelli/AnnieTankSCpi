@@ -1,0 +1,44 @@
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.env.*
+*.egg-info/
+build/
+dist/
+
+# C / C++
+*.o
+*.so
+*.a
+*.out
+*.exe
+*.swp
+
+# Docker volumes / runtime data
+data/
+volumes/
+docker/*/data/
+docker/*/conf/
+docker/*/plugins/
+docker-compose.override.yml
+
+# Logs / temporary files
+*.log
+logs/
+*.pid
+*.tmp
+*.bak
+
+# Grafana / Influx / Telegraf runtime
+grafana/data/
+influx/data/
+telegraf/data/

@@ -1,0 +1,37 @@
+# docker-compose.yml  (no 'version:' needed)
+services:
+  influxdb:
+    image: influxdb:2.7
+    restart: unless-stopped
+    ports:
+      #["8086:8086"]
+      - "192.168.163.200:8086:8086"   # eth0 IP only
+    volumes:
+      - ./influxdb:/var/lib/influxdb2
+      - ./influxdb-config:/etc/influxdb2
+
+  grafana:
+    image: grafana/grafana:10.4.3
+    restart: unless-stopped
+    ports:
+      # ["3000:3000"]
+      - "192.168.163.200:3000:3000"   # eth0 IP only
+    volumes:
+      - ./grafana:/var/lib/grafana
+      - ./grafana-provisioning:/etc/grafana/provisioning
+
+  telegraf:
+    image: telegraf:1.30
+    restart: unless-stopped
+    depends_on: [influxdb]
+    volumes:
+      - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc:/host/etc:ro
+      - /sys/bus/w1/devices:/sys/bus/w1/devices:ro   # expose sensors
+      - /home/TankSC/temp-monitor:/home/TankSC/temp-monitor:ro
+    environment:
+      HOST_PROC: /host/proc
+      HOST_SYS: /host/sys
+      HOST_ETC: /host/etc
